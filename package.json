@@ -1,0 +1,19 @@
+{
+  "name": "sudoku-solver",
+  "version": "1.0.0",
+  "description": "https://leetcode.com/problems/sudoku-solver/",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "lint": "standard --fix"
+  },
+  "keywords": [
+    "sudoku",
+    "solver"
+  ],
+  "author": "Arnaud Buchholz",
+  "license": "ISC",
+  "devDependencies": {
+    "standard": "^17.1.0"
+  }
+}
