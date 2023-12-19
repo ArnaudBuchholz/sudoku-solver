@@ -34,6 +34,15 @@ module.exports = function (input) {
     }
   }
 
+  const choices = (state, x, y) => {
+    const cell = state.cells[y][x]
+    if (Array.isArray(cell)) {
+      return cell
+    }
+    return []
+  }
+
+  // Set the puzzle input
   for (let y = 0; y < 9; ++y) {
     for (let x = 0; x < 9; ++x) {
       const digit = input[y][x]
@@ -43,13 +52,16 @@ module.exports = function (input) {
     }
   }
 
+  // Removes obvious guesses
   while (state.guesses.length) {
     const { x, y, digit } = state.guesses.shift()
     set(state, x, y, digit)
   }
 
   if (state.remaining !== 0) {
-    console.log('Missing', state.remaining, 'cells')
+    console.log('Still missing', state.remaining, 'cells')
+
+    const remaining = []
     for (let y = 0; y < 9; ++y) {
       if (y === 3 || y === 6) {
         console.log('---+---+---')
@@ -59,14 +71,28 @@ module.exports = function (input) {
         if (x === 3 || x === 6) {
           output.push('|')
         }
-        if (Array.isArray(state.cells[y][x])) {
-          output.push(state.cells[y][x].length)
+        const cell = choices(state, x, y)
+        if (cell.length > 0) {
+          let score = 0
+          const gxBase = Math.floor(x / 3) * 3
+          const gyBase = Math.floor(y / 3) * 3
+          for (let z = 0; z < 9; ++z) {
+            score += choices(state, z, y).length + choices(state, x, z).length
+            const gx = gxBase + z % 3
+            const gy = gyBase + Math.floor(z / 3)
+            score += choices(state, gx, gy).length
+          }
+          remaining[cell.length] ??= []
+          remaining[cell.length].push({ x, y, choices: cell, score })
+          output.push(cell.length)
         } else {
           output.push(' ')
         }
       }
       console.log(output.join(''))
     }
+
+    console.log(remaining)
   }
 
   return state.cells
