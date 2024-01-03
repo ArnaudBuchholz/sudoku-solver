@@ -74,7 +74,6 @@ module.exports = function (input) {
   ]
 
   while (states.length) {
-    console.log(states.length)
     const state = states.pop()
 
     while (state.guesses.length) {
