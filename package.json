@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "https://leetcode.com/problems/sudoku-solver/",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node .",
+    "test": "vitest",
     "lint": "standard --fix"
   },
   "keywords": [
@@ -12,8 +14,9 @@
     "solver"
   ],
   "author": "Arnaud Buchholz",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
-    "standard": "^17.1.0"
+    "standard": "^17.1.0",
+    "vitest": "^1.1.3"
   }
 }
