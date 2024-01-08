@@ -1,7 +1,8 @@
 'use strict'
 
 const CHOICES_ONE = 16
-const choicesBits = [, CHOICES_ONE]
+const choicesBits = []
+choicesBits[1] = CHOICES_ONE
 for (let i = 2; i < 10; ++i) {
   choicesBits[i] = choicesBits[i - 1] * 2
 }
@@ -16,7 +17,7 @@ export function has (cell, digit) {
   return (cell & mask) === mask
 }
 
-export function set (cell, digit) {
+export function resolve (cell, digit) {
   return digit
 }
 
@@ -29,4 +30,12 @@ export function unset (cell, digit) {
   }
   const mask = choicesBits[digit]
   return cell & ~mask
+}
+
+export function * readDigits (cell) {
+  for (let digit = 1; digit < 10; ++digit) {
+    if (has(cell, digit)) {
+      yield digit
+    }
+  }
 }

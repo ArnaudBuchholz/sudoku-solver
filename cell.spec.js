@@ -1,7 +1,7 @@
 'use strict'
 
 import { describe, it, expect } from 'vitest'
-import { all, has, set, unset } from './cell'
+import { all, has, resolve, unset, readDigits } from './cell'
 
 describe('has', () => {
   for (let digit = 1; digit < 10; ++digit) {
@@ -11,9 +11,9 @@ describe('has', () => {
   }
 })
 
-describe('set', () => {
+describe('resolve', () => {
   for (let digit = 1; digit < 10; ++digit) {
-    const cell = set(all, digit)
+    const cell = resolve(all, digit)
     it(`sets ${digit} in all`, () => expect(has(cell, digit)).toBe(true))
     for (let other = 1; other < 10; ++other) {
       if (other !== digit) {
@@ -34,4 +34,18 @@ describe('unset', () => {
     }
   }
 })
-  
+
+describe('readDigits', () => {
+  it('lists possible digits in a cell', () => {
+    expect([...readDigits(all)]).toStrictEqual([1, 2, 3, 4, 5, 6, 7, 8, 9])
+  })
+
+  it('gives a result on resolved cells', () => {
+    expect([...readDigits(resolve(all, 1))]).toStrictEqual([1])
+  })
+
+  it('strips unset digits', () => {
+    const cell = unset(all, 5)
+    expect([...readDigits(cell)]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+  })
+})
