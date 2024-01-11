@@ -1,7 +1,7 @@
 'use strict'
 
 import { chunk, horizontal, vertical } from './axis'
-import { all, unset, resolve } from './cell'
+import { all, unset, resolve, readDigits, isResolved } from './cell'
 
 module.exports = {
   alloc (clone = undefined) {
@@ -20,22 +20,40 @@ module.exports = {
   },
 
   applyChanges (state) {
-    while (state.changes.length > 0) {
+    const { changes, cells } = state
+
+    const remove = (coord, digit) => {
+      let cell = cells[coord]
+      if (isResolved(cell)) {
+        if (cell === digit) {
+          throw new Error(`@{coord} is already resolved to ${digit}`)
+        }
+        return
+      }
+      cell = unset(cell, digit)
+      cells[coord] = cell
+      const [first, second] = readDigits(cell)
+      if (second === undefined) {
+        changes.push({ coord, digit: first })
+      }
+    }
+
+    while (changes.length > 0) {
       const { coord, digit } = state.changes.shift()
-      state.cells[coord] = resolve(state.cells[coord], digit)
-      for (let x of horizontal(coord)) {
+      cells[coord] = resolve(cells[coord], digit)
+      for (const x of horizontal(coord)) {
         if (x !== coord) {
-          state.cells[x] = unset(state.cells[x], digit)
+          remove(x, digit)
         }
       }
-      for (let y of vertical(coord)) {
+      for (const y of vertical(coord)) {
         if (y !== coord) {
-          state.cells[y] = unset(state.cells[y], digit)
+          remove(y, digit)
         }
       }
-      for (let c of chunk(coord)) {
+      for (const c of chunk(coord)) {
         if (c !== coord) {
-          state.cells[c] = unset(state.cells[c], digit)
+          remove(c, digit)
         }
       }
     }

@@ -25,10 +25,21 @@ describe('allocate a new state', () => {
 })
 
 describe('changes', () => {
-  it('apply changes and update the cells', () => {
+  it.only('apply changes and update the cells', () => {
     const state = alloc()
     state.changes.push({ coord: 0, digit: 5 })
     applyChanges(state)
-    expect([...readDigits(state.cells[0])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+    expect([...readDigits(state.cells[0])]).toStrictEqual([5])
+    expect([...readDigits(state.cells[1])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+    expect([...readDigits(state.cells[2])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+    expect([...readDigits(state.cells[8])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+    expect([...readDigits(state.cells[9])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+    expect([...readDigits(state.cells[10])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+    expect([...readDigits(state.cells[11])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+    expect([...readDigits(state.cells[18])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+    expect([...readDigits(state.cells[19])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+    expect([...readDigits(state.cells[20])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+    expect([...readDigits(state.cells[27])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
+    expect([...readDigits(state.cells[36])]).toStrictEqual([1, 2, 3, 4, 6, 7, 8, 9])
   })
 })
