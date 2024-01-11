@@ -10,7 +10,7 @@ for (let i = 2; i < 10; ++i) {
 export const all = choicesBits.reduce((total, bit) => total + bit)
 
 export function has (cell, digit) {
-  if (cell < CHOICES_ONE) {
+  if (isResolved(cell)) {
     return cell === digit
   }
   const mask = choicesBits[digit]
@@ -19,6 +19,10 @@ export function has (cell, digit) {
 
 export function resolve (cell, digit) {
   return digit
+}
+
+export function isResolved (cell) {
+  return cell < CHOICES_ONE
 }
 
 export function unset (cell, digit) {

@@ -1,7 +1,7 @@
 'use strict'
 
 import { describe, it, expect } from 'vitest'
-import { all, has, resolve, unset, readDigits } from './cell'
+import { all, has, resolve, isResolved, unset, readDigits } from './cell'
 
 describe('has', () => {
   for (let digit = 1; digit < 10; ++digit) {
@@ -21,6 +21,16 @@ describe('resolve', () => {
       }
     }
   }
+})
+
+describe('isResolved', () => {
+  it('indicates the cell was resolved (false)', () => {
+    expect(isResolved(all)).toBe(false)
+  })
+
+  it('indicates the cell was resolved (false)', () => {
+    expect(isResolved(resolve(all, 1))).toBe(true)
+  })
 })
 
 describe('unset', () => {
